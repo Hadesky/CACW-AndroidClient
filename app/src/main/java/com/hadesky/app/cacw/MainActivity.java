@@ -15,9 +15,14 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -37,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
 
         final NavigationView navigationView = (NavigationView) findViewById(R.id.main_navigation);
         if (navigationView != null) {
+            SimpleAdapter simpleAdapter = new SimpleAdapter(this, getNavMenuItemData(), R.layout.nav_menu_layout, new String[]{"nav_img", "nav_title"}, new int[]{R.id.nav_img, R.id.nav_title});
+            ListView listView = (ListView) findViewById(R.id.nav_menu_items);
+            listView.setAdapter(simpleAdapter);
+
             setupDrawerContent(navigationView);
         }
     }
@@ -84,5 +93,20 @@ public class MainActivity extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    private List<Map<String,Object>>getNavMenuItemData() {
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("nav_img", R.drawable.ic_home_black_36dp);
+        map.put("nav_title", "首页");
+        list.add(map);
+
+        map = new HashMap<String, Object>();
+        map.put("nav_img", R.drawable.ic_alarm_on_black_36dp);
+        map.put("nav_title", "提醒");
+        list.add(map);
+        return list;
     }
 }

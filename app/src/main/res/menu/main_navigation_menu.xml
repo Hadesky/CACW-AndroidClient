@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home_black_36dp"
+            android:title="@string/home"
+            android:checked="true"/>
+        <item
+            android:id="@+id/nav_reminder"
+            android:icon="@drawable/ic_alarm_on_black_36dp"
+            android:title="@string/reminder" />
+    </group>
+
+    <item
+        android:title="more">
+        <menu>
+            <item android:title="设置" />
+            <item android:title="退出" />
+        </menu>
+    </item>
+</menu>

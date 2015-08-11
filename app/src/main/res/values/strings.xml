@@ -1,6 +1,10 @@
 <resources>
-    <string name="app_name">CACW</string>
+    <string name="app_name">蚂蚁社团</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="home">首页</string>
+    <string name="reminder">提醒</string>
+    <string name="toggle_open">打开</string>
+    <string name="toggle_close">关闭</string>
 </resources>

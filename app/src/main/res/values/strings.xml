@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">蚂蚁社团</string>
+    <string name="app_name">蚂蚁团队</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -7,4 +7,10 @@
     <string name="reminder">提醒</string>
     <string name="toggle_open">打开</string>
     <string name="toggle_close">关闭</string>
+    <string name="feedback">反馈</string>
+    <string name="notebook">备忘录</string>
+    <string name="exit">退出</string>
+    <string name="setting">设置</string>
+    <string name="logout">注销</string>
+    <string name="completed_case">已完成事项</string>
 </resources>

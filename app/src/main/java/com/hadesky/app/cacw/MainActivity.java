@@ -1,6 +1,8 @@
 package com.hadesky.app.cacw;
 
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.PersistableBundle;
 import android.support.design.widget.NavigationView;
@@ -15,9 +17,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,8 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         initActionBar();
         setupTabLayout();
-
-        final NavigationView navigationView = (NavigationView) findViewById(R.id.main_navigation);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.main_navigation);
         if (navigationView != null) {
             setupDrawerContent(navigationView);
         }
@@ -87,8 +90,20 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+        //设置头像
         CircularImage circularImage = (CircularImage) findViewById(R.id.user_photo);
-        circularImage.setImageResource(R.drawable.a);
+
+        loadUserImage(R.drawable.a, circularImage);
+    }
+
+    private void loadUserImage(int resId, ImageView imageView) {
+        Bitmap mPlaceHolderBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.default_user_image_192);
+        if (BitmapWorkerTask.cancelPotentialWork(resId, imageView)) {
+            final BitmapWorkerTask task = new BitmapWorkerTask(imageView, getResources());
+            final BitmapWorkerTask.AsyncDrawable defUserImg = new BitmapWorkerTask.AsyncDrawable(getResources(), mPlaceHolderBitmap, task);
+            imageView.setImageDrawable(defUserImg);
+            task.execute(resId);
+        }
     }
 
     @Override

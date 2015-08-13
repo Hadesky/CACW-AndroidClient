@@ -7,4 +7,11 @@
     <string name="reminder">提醒</string>
     <string name="toggle_open">打开</string>
     <string name="toggle_close">关闭</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="logout">登出</string>
+    <string name="setting">设置</string>
+    <string name="notebook">备忘录</string>
+    <string name="completed_case">已完成事项</string>
+    <string name="feedback">反馈</string>
+    <string name="exit">退出</string>
 </resources>

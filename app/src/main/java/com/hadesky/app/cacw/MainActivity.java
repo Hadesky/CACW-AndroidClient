@@ -1,18 +1,21 @@
 package com.hadesky.app.cacw;
 
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.os.PersistableBundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.ListFragment;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -68,10 +71,24 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
+                int id = menuItem.getItemId();
+                switch (id) {
+                    case R.id.nav_home:
+                        menuItem.setChecked(true);
+                        break;
+                    case R.id.action_exit:
+                        finish();
+                        break;
+                    default:
+                        menuItem.setChecked(true);
+                        break;
+                }
                 mDrawerLayout.closeDrawers();
                 return true;
             }
         });
+        CircularImage circularImage = (CircularImage) findViewById(R.id.user_photo);
+        circularImage.setImageResource(R.drawable.a);
     }
 
     @Override
@@ -84,5 +101,33 @@ public class MainActivity extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.action_settings:
+                return true;
+            case R.id.action_logout:
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawers();
+        } else {
+            super.onBackPressed();
+        }
     }
 }

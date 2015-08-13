@@ -25,7 +25,7 @@ public class BitmapWorkerTask extends AsyncTask<Integer,Bitmap,Bitmap> {
     @Override
     protected Bitmap doInBackground(Integer[] params) {
         resId = params[0];
-        return decodeBitmap.decodeSampledBitmapFromResource(mResources, resId, 60, 60);
+        return decodeBitmap.decodeSampledBitmapFromResource(mResources, resId, 100, 100);
     }
 
 

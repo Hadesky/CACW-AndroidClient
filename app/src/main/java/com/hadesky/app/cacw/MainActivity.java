@@ -22,13 +22,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class MainActivity extends AppCompatActivity {
 
+    private boolean isReadyToExit = false;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private TabLayout mTabLayout;
@@ -141,8 +145,18 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawers();
-        } else {
+        } else if (isReadyToExit) {
             super.onBackPressed();
+        } else {
+            isReadyToExit = true;
+            Toast.makeText(this, "再次点击返回退出程序!", Toast.LENGTH_SHORT).show();
+            Timer exitTimer = new Timer();
+            exitTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    isReadyToExit = false;
+                }
+            }, 2000);
         }
     }
 }

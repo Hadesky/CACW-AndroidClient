@@ -1,5 +1,7 @@
 package com.hadesky.app.cacw;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        checkIfFirstRun();
 
         initActionBar();
         setupTabLayout();
@@ -49,6 +52,21 @@ public class MainActivity extends AppCompatActivity {
         if (navigationView != null) {
             setupDrawerContent(navigationView);
         }
+    }
+
+    private void checkIfFirstRun() {
+        SharedPreferences preferences = getSharedPreferences("count",MODE_PRIVATE);
+        int count = preferences.getInt("count", 0);
+
+        if (count == 0) {
+            Intent intent = new Intent();
+            intent.setClass(getApplicationContext(), WelcomeActivity.class);
+            startActivity(intent);
+            this.finish();
+        }
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("count", ++count);
+        editor.apply();
     }
 
     private void setupTabLayout() {

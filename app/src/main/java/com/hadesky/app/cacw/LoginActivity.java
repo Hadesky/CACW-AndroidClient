@@ -1,9 +1,11 @@
 package com.hadesky.app.cacw;
 
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -11,6 +13,14 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+//        ImageView imageView = (ImageView) findViewById(R.id.test);
+//        Drawable drawable = getDrawable(R.drawable.indicator_selector);
+//        int state[] = {R.attr.indicator_empty};
+//        if (drawable != null) {
+//            drawable.setState(state);
+//        }
+//        imageView.setImageDrawable(drawable);
     }
 
     @Override

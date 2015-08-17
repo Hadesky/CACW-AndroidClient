@@ -1,6 +1,7 @@
 package com.hadesky.app.cacw;
 
 import android.graphics.drawable.Drawable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,13 +15,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-//        ImageView imageView = (ImageView) findViewById(R.id.test);
-//        Drawable drawable = getDrawable(R.drawable.indicator_selector);
-//        int state[] = {R.attr.indicator_empty};
-//        if (drawable != null) {
-//            drawable.setState(state);
-//        }
-//        imageView.setImageDrawable(drawable);
+        CircularImage icon = (CircularImage) findViewById(R.id.login_icon);
+        icon.setImageDrawable(getResources().getDrawable(R.mipmap.ic_launcher));
+
+        TextInputLayout textInputLayout = (TextInputLayout) findViewById(R.id.login_username);
+        textInputLayout.setHint("邮箱/手机号");
     }
 
     @Override

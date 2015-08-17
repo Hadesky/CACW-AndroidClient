@@ -136,7 +136,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
     public void Test(View view) {
         Intent intent = new Intent();
-        intent.setClass(getApplicationContext(), MainActivity.class);
+        intent.setClass(getApplicationContext(), LoginActivity.class);
         startActivity(intent);
         this.finish();
     }

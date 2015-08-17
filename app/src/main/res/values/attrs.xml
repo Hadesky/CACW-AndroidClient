@@ -6,4 +6,7 @@
         <attr name="indicator_margin" format="dimension" />
         <attr name="indicator_smooth" format="boolean" />
     </declare-styleable>
+    <declare-styleable name="DeletableEditText">
+        <attr name="clear_icon" format="reference" />
+    </declare-styleable>
 </resources>

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
@@ -38,6 +40,12 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            //透明状态栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            //透明导航栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
 
         colorList = new ArrayList<Integer>();
         colorList.add(0xFF92D050);
@@ -61,11 +69,11 @@ public class WelcomeActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                ObjectAnimator animator1 = ObjectAnimator.ofFloat(bg, "alpha", 1f, 0.7f);
-                ObjectAnimator animator2 = ObjectAnimator.ofFloat(bg, "alpha", 0.7f, 1f);
+                ObjectAnimator animator1 = ObjectAnimator.ofFloat(bg, "alpha", 1f, 0.6f);
+                ObjectAnimator animator2 = ObjectAnimator.ofFloat(bg, "alpha", 0.6f, 1f);
                 AnimatorSet animatorSet = new AnimatorSet();
                 animatorSet.playTogether(animator1,animator2);
-                animatorSet.setDuration(2000);
+                animatorSet.setDuration(500);
                 animatorSet.start();
                 bg.setBackgroundColor(colorList.get(position));
             }

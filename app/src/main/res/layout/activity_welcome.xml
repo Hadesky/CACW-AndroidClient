@@ -1,47 +1,44 @@
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:cacw="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:fitsSystemWindows="true"
-    android:clipToPadding="true"
     tools:context="com.hadesky.app.cacw.WelcomeActivity">
-
-    <RelativeLayout
-        android:gravity="top"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top">
         <View
             android:id="@+id/welcome_bg"
             android:layout_width="match_parent"
-            android:layout_height="450dp" />
+            android:layout_height="match_parent" />
         <android.support.v4.view.ViewPager
             android:layout_alignParentTop="true"
             android:id="@+id/welcome_viewpager"
             android:layout_width="match_parent"
-            android:layout_height="450dp">
+            android:layout_height="match_parent">
         </android.support.v4.view.ViewPager>
         <com.hadesky.app.cacw.IndicatorView
             android:id="@+id/welcome_indicator"
             android:layout_centerHorizontal="true"
             android:padding="5dp"
             android:layout_alignBottom="@id/welcome_viewpager"
+            android:layout_marginBottom="90dp"
             cacw:indicator_empty="@drawable/indicator_empty"
             cacw:indicator_smooth="true"
             cacw:indicator_selected="@drawable/indicator_selected"
             cacw:indicator_margin="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-    </RelativeLayout>
-    <Button
-        android:onClick="Test"
-        android:layout_marginTop="50dp"
-        android:layout_gravity="center_horizontal"
-        android:text="注册|登录"
-        android:id="@+id/welcome_button"
-        android:layout_width="300dp"
-        android:layout_height="50dp" />
-</LinearLayout>
+        <Button
+            android:textColor="#ffffffff"
+            android:textSize="20sp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:background="@drawable/welcome_button"
+            android:layout_alignTop="@id/welcome_indicator"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:onClick="Test"
+            android:text="注册|登录"
+            android:id="@+id/welcome_button"
+            android:layout_width="300dp"
+            android:layout_height="50dp" />
+</RelativeLayout>

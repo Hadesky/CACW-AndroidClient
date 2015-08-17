@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences("count",MODE_PRIVATE);
         int count = preferences.getInt("count", 0);
 
-        if (count == 0) {
+        if (true) {
             Intent intent = new Intent();
             intent.setClass(getApplicationContext(), WelcomeActivity.class);
             startActivity(intent);

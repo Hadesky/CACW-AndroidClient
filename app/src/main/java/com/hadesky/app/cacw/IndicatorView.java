@@ -82,13 +82,7 @@ public class IndicatorView extends View implements ViewPager.OnPageChangeListene
             throw new RuntimeException("图标大小错误，请统一图标大小");
         mIndicatorSize = Math.max(mIndicatorEmpty.getIntrinsicWidth(), mIndicatorEmpty.getIntrinsicHeight());
 
-        //手动调整大小
-        if (mIndicatorSize > 50) {
-            mIndicatorEmpty = new BitmapDrawable(decodeBitmap.decodeSampledBitmapFromResource(getResources(), R.drawable.indicator_empty, 20, 20));
-            mIndicatorSelected = new BitmapDrawable(decodeBitmap.decodeSampledBitmapFromResource(getResources(), R.drawable.indicator_selected, 20, 20));
-            mIndicatorSize = Math.max(mIndicatorEmpty.getIntrinsicWidth(), mIndicatorEmpty.getIntrinsicHeight());
 
-        }
         mIndicatorEmpty.setBounds(0, 0, mIndicatorSize, mIndicatorSize);
         mIndicatorSelected.setBounds(0, 0, mIndicatorSize, mIndicatorSize);
     }

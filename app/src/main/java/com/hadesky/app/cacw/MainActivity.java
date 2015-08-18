@@ -58,13 +58,15 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences("count",MODE_PRIVATE);
         int count = preferences.getInt("count", 0);
 
-        if (true) {
+        if (count == 0) {
             Intent intent = new Intent();
             intent.setClass(getApplicationContext(), WelcomeActivity.class);
             startActivity(intent);
             this.finish();
         }
         SharedPreferences.Editor editor = preferences.edit();
+        //TODO：临时改
+        count = -1;
         editor.putInt("count", ++count);
         editor.apply();
     }

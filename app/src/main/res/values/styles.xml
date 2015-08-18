@@ -4,7 +4,7 @@
     <style name="Theme.CACW" parent="Base.Theme.CACW">
     </style>
 
-    <style name="Base.Theme.CACW" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Base.Theme.CACW" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">#03A9F4</item>
         <item name="colorPrimaryDark">#0288D1</item>
         <item name="colorAccent">#FFEB3B</item>

@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Base.Theme.CACW" parent="Theme.AppCompat.Light.NoActionBar">
+    <style xmlns:tools="http://schemas.android.com/tools"
+        name="Base.Theme.CACW" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">#03A9F4</item>
         <item name="colorPrimaryDark">#0288D1</item>
         <item name="colorAccent">#ffffff</item>
         <item name="android:windowBackground">@color/window_background</item>
+        <item
+            tools:targetApi="21"
+            name="android:colorControlActivated">#03A9F4</item>
     </style>
 </resources>

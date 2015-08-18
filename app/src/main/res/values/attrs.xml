@@ -8,5 +8,10 @@
     </declare-styleable>
     <declare-styleable name="DeletableEditText">
         <attr name="clear_icon" format="reference" />
+        <attr name="underline_color" format="color" />
+    </declare-styleable>
+    <declare-styleable name="CircularImage">
+        <attr name="circle_width" format="dimension"/>
+        <attr name="circle_color" format="color" />
     </declare-styleable>
 </resources>

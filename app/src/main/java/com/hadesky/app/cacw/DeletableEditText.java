@@ -3,6 +3,7 @@ package com.hadesky.app.cacw;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,6 +17,8 @@ import android.widget.EditText;
  */
 public class DeletableEditText extends EditText implements View.OnFocusChangeListener, TextWatcher {
 
+    private int mUnderlineColor;
+    private Paint mPaint;
     private Drawable mClearIcon;
     private int mClearIconSize;
     private int mIconLeftX;
@@ -41,6 +44,8 @@ public class DeletableEditText extends EditText implements View.OnFocusChangeLis
                 case R.styleable.DeletableEditText_clear_icon:
                     mClearIcon = typedArray.getDrawable(attr);
                     break;
+                case R.styleable.DeletableEditText_underline_color:
+                    mUnderlineColor = typedArray.getColor(attr, getResources().getColor(android.R.color.darker_gray));
                 default:
                     break;
             }
@@ -50,6 +55,11 @@ public class DeletableEditText extends EditText implements View.OnFocusChangeLis
     }
 
     private void init() {
+
+        mPaint = new Paint();
+        mPaint.setStrokeWidth(3.0f);
+        mPaint.setColor(mUnderlineColor);
+
         if (mClearIcon == null) {
             throw new RuntimeException("没有为删除图标设置资源");
         }
@@ -63,6 +73,15 @@ public class DeletableEditText extends EditText implements View.OnFocusChangeLis
         setOnFocusChangeListener(this);
         //设置内容变化监听器
         addTextChangedListener(this);
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+        //计算icon绘制的位置
+        mIconRightX = getMeasuredWidth() - getCompoundDrawablePadding();
+        mIconLeftX = getMeasuredWidth() - mClearIconSize - getCompoundDrawablePadding();
     }
 
     @Override
@@ -80,24 +99,20 @@ public class DeletableEditText extends EditText implements View.OnFocusChangeLis
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if (canvas != null && isClearIconVisible) {
             super.onDraw(canvas);
-            canvas.save();
-            //计算icon绘制的位置
-            int iconTopY;
-            mIconRightX = getMeasuredWidth() - getPaddingRight();
-            mIconLeftX = getMeasuredWidth() - mClearIconSize - getPaddingRight();
-            iconTopY = getMeasuredHeight() / 2 - mClearIcon.getIntrinsicHeight() / 2;
-            canvas.translate(mIconLeftX, iconTopY);
-            mClearIcon.draw(canvas);
-        }else if (canvas != null) {
-            super.onDraw(canvas);
-        }
+            int x=this.getScrollX();
+            int w=this.getMeasuredWidth();
+            canvas.drawLine(0, this.getHeight() - 1, w+x,
+                    this.getHeight() - 1, mPaint);
     }
 
     public void setIsClearIconVisible(boolean isClearIconVisible) {
         this.isClearIconVisible = isClearIconVisible;
-        invalidate();
+        if (isClearIconVisible) {
+            setCompoundDrawablesWithIntrinsicBounds(null, null, mClearIcon, null);
+        } else {
+            setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+        }
     }
 
     @Override

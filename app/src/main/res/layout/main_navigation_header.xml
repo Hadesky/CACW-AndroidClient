@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cacw="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -10,13 +11,10 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <!--头像-->
-    <ImageView
-        android:id="@+id/user_photo_bg"
-        android:src="@drawable/user_image_bg"
-        android:contentDescription="@null"
-        android:layout_width="65dp"
-        android:layout_height="65dp" />
+
     <com.hadesky.app.cacw.CircularImage
+        cacw:circle_width="2dp"
+        cacw:circle_color="@android:color/white"
         android:id="@+id/user_photo"
         android:layout_width="60dp"
         android:layout_height="60dp"
@@ -26,7 +24,7 @@
     <!--用户名-->
     <TextView
         android:id="@+id/user_name"
-        android:layout_below="@id/user_photo_bg"
+        android:layout_below="@id/user_photo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"

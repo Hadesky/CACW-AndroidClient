@@ -30,14 +30,14 @@
         android:layout_centerHorizontal="true"
         android:layout_width="100dp"
         android:layout_height="100dp" />
-    <TextView
-        android:text="蚂蚁社团"
-        android:textSize="20sp"
-        android:layout_alignTop="@id/login_icon"
-        android:layout_marginTop="110dp"
-        android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <!--<TextView-->
+        <!--android:text="蚂蚁社团"-->
+        <!--android:textSize="20sp"-->
+        <!--android:layout_alignTop="@id/login_icon"-->
+        <!--android:layout_marginTop="110dp"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content" />-->
 
         <com.hadesky.app.cacw.DeletableEditText
             android:id="@+id/login_username"

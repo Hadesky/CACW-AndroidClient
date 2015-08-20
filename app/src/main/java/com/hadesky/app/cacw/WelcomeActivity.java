@@ -87,11 +87,6 @@ public class WelcomeActivity extends AppCompatActivity {
         });
         mViewPager.setPageTransformer(true,new ZoomOutPageTransformer());
 
-        //TODO:临时改
-        SharedPreferences preferences = getSharedPreferences("count",MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putInt("count", 1);
-        editor.apply();
     }
 
     private void initImageView() {
@@ -146,7 +141,6 @@ public class WelcomeActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setClass(getApplicationContext(), LoginActivity.class);
         startActivity(intent);
-        this.finish();
     }
 
     private class WelcomePagerAdapter extends PagerAdapter {

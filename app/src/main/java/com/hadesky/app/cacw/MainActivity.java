@@ -26,25 +26,25 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    private boolean isReadyToExit = false;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
-
+    private SessionManagement session;
+    private Toast exitToast;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         checkIfFirstRun();
+        checkIfLogin();
+
+        session = new SessionManagement(getApplicationContext());
+        exitToast = Toast.makeText(getApplicationContext(), "再按返回退出", Toast.LENGTH_SHORT);
 
         initActionBar();
         setupTabLayout();
@@ -54,21 +54,30 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void checkIfFirstRun() {
-        SharedPreferences preferences = getSharedPreferences("count",MODE_PRIVATE);
-        int count = preferences.getInt("count", 0);
+    private void checkIfLogin() {
+        if (isFirstRun(false)) {
+            session.checkLogin();
+        }
+    }
 
-        if (count == 0) {
+    private void checkIfFirstRun() {
+        if (isFirstRun(true)) {
             Intent intent = new Intent();
             intent.setClass(getApplicationContext(), WelcomeActivity.class);
             startActivity(intent);
             this.finish();
         }
-        SharedPreferences.Editor editor = preferences.edit();
-        //TODO：临时改
-        count = -1;
-        editor.putInt("count", ++count);
-        editor.apply();
+    }
+
+    private boolean isFirstRun(boolean plusOne) {
+        SharedPreferences preferences = getSharedPreferences("runCount", MODE_PRIVATE);
+        int count = preferences.getInt("runCount", 0);
+        if (plusOne) {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putInt("runCount", count + 1);
+            editor.apply();
+        }
+        return count == 0;
     }
 
     private void setupTabLayout() {
@@ -156,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_settings:
                 return true;
             case R.id.action_logout:
+                session.logoutUser();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -163,20 +173,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-            mDrawerLayout.closeDrawers();
-        } else if (isReadyToExit) {
-            super.onBackPressed();
+        if (exitToast.getView().getParent() == null) {
+            exitToast.show();
         } else {
-            isReadyToExit = true;
-            Toast.makeText(this, "再次点击返回退出程序!", Toast.LENGTH_SHORT).show();
-            Timer exitTimer = new Timer();
-            exitTimer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    isReadyToExit = false;
-                }
-            }, 2000);
+            super.onBackPressed();
         }
     }
+
 }

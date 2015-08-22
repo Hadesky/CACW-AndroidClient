@@ -78,7 +78,7 @@
         android:background="@drawable/login_button"
         android:layout_width="300dp"
         android:layout_height="50dp"
-        android:onClick="login"/>
+        android:onClick="btOnClick"/>
     <TextView
         android:text="忘记密码？"
         android:linksClickable="true"

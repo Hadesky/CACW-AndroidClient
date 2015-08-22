@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.PersistableBundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -145,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
         mDrawerToggle.syncState();
     }
 
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -180,4 +182,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //如果要建立连接，对于HTTPURLCONNECT有一个旧版本的bug，API12以前会产生BUG，可以调用这个函数来临时阻止BUG
+    private void disableConnectionReuseIfNecessary() {
+        // HTTP connection reuse which was buggy pre-froyo
+        if (Integer.parseInt(Build.VERSION.SDK) < Build.VERSION_CODES.FROYO) {
+            System.setProperty("http.keepAlive", "false");
+        }
+    }
 }

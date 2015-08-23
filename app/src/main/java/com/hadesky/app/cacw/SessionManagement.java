@@ -32,12 +32,14 @@ public class SessionManagement {
 
         editor.apply();
     }
-    public void checkLogin() {
+    public boolean checkLogin() {
         if (!isLoggedIn()) {
             Intent intent = new Intent(mContext, LoginActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             mContext.startActivity(intent);
+            return false;
+        } else {
+            return true;
         }
     }
 
@@ -50,10 +52,8 @@ public class SessionManagement {
         // After logout redirect user to Loing Activity
         Intent i = new Intent(mContext, LoginActivity.class);
         // Closing all the Activities
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 
-        // Add new Flag to start new Activity
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         // Staring Login Activity
         mContext.startActivity(i);

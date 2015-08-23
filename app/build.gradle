@@ -23,4 +23,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'com.android.support:design:22.2.1'
+
+    //侧滑第三方库
+    compile 'me.imid.swipebacklayout.lib:library:1.0.0'
 }

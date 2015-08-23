@@ -16,16 +16,18 @@ public class BitmapWorkerTask extends AsyncTask<Integer,Bitmap,Bitmap> {
     private final WeakReference imageViewReference;
     private int resId = 0;
     private final Resources mResources;
+    private int requireWidth = 100;
+    private int requireHeight = 100;
 
     public BitmapWorkerTask(ImageView imageView,Resources resources) {
-        imageViewReference = new WeakReference(imageView);
+        imageViewReference = new WeakReference<>(imageView);
         mResources = resources;
     }
 
     @Override
     protected Bitmap doInBackground(Integer[] params) {
         resId = params[0];
-        return DecodeBitmap.decodeSampledBitmapFromResource(mResources, resId, 100, 100);
+        return DecodeBitmap.decodeSampledBitmapFromResource(mResources, resId, requireWidth, requireHeight);
     }
 
 
@@ -34,11 +36,11 @@ public class BitmapWorkerTask extends AsyncTask<Integer,Bitmap,Bitmap> {
         if (isCancelled()) {
             bitmap = null;
         }
-        if (imageViewReference != null && bitmap != null) {
+        if (bitmap != null) {
             final ImageView imageView = (ImageView) imageViewReference.get();
             final BitmapWorkerTask task = getBitmapWorkerTask(imageView);
 
-            if (this == task && imageView != null) {
+            if (this == task) {
                 imageView.setImageBitmap(bitmap);
             }
         }
@@ -85,4 +87,11 @@ public class BitmapWorkerTask extends AsyncTask<Integer,Bitmap,Bitmap> {
         }
     }
 
+    public void setRequireWidth(int requireWidth) {
+        this.requireWidth = requireWidth;
+    }
+
+    public void setRequireHeight(int requireHeight) {
+        this.requireHeight = requireHeight;
+    }
 }

@@ -59,7 +59,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkIfLogin() {
         if (!isFirstRun()) {
-            session.checkLogin();
+            if (!session.checkLogin()) {
+                this.finish();
+            }
         }
     }
 
@@ -162,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
 
         switch (id) {
             case R.id.action_settings:
+                startSettingActivity();
                 return true;
             case R.id.action_logout:
                 session.logoutUser();
@@ -170,12 +173,22 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void startSettingActivity() {
+        Intent intent = new Intent();
+        intent.setClass(getApplicationContext(), SettingActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     public void onBackPressed() {
-        if (exitToast.getView().getParent() == null) {
-            exitToast.show();
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawers();
         } else {
-            super.onBackPressed();
+            if (exitToast.getView().getParent() == null) {
+                exitToast.show();
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 

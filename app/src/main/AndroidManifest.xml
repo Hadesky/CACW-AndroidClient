@@ -12,13 +12,7 @@
         android:theme="@style/Theme.CACW" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"
-
-            android:launchMode="singleTask"
-            android:noHistory="true"
-            android:excludeFromRecents="true">
-            <!--TODO：上面3行代码为了保证登录时mainActivity不存在，如果有更好的方式实现可能会更科学-->
-
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,10 +21,10 @@
         </activity>
         <activity
             android:name=".LoginActivity"
+            android:excludeFromRecents="true"
             android:label="@string/title_activity_login"
-            android:parentActivityName=".WelcomeActivity"
             android:noHistory="true"
-            android:excludeFromRecents="true">
+            android:parentActivityName=".WelcomeActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.hadesky.app.cacw.WelcomeActivity" />
@@ -38,7 +32,15 @@
         <activity
             android:name=".WelcomeActivity"
             android:label="@string/title_activity_welcome"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask" >
+        </activity>
+        <activity
+            android:name=".SettingActivity"
+            android:label="@string/title_activity_setting"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.hadesky.app.cacw.MainActivity" />
         </activity>
     </application>
 

@@ -32,7 +32,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class LoginActivity extends AppCompatActivity {
-    public static final String URL = "http://192.168.1.1";
+    public static final String URL = "http://www.baidu.com";
     public static final int READ_TIMEOUT = 10000;
     public static final int CONNECT_TIMEOUT = 15000;
 
@@ -162,7 +162,7 @@ public class LoginActivity extends AppCompatActivity {
                 connection.connect();
                 int response = connection.getResponseCode();
                 Log.d("Login Tag", "The response is " + response);
-                return response != 200;
+                return response == 200;
             } catch (IOException e) {
                 return false;
             }

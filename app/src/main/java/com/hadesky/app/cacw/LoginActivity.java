@@ -32,7 +32,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class LoginActivity extends AppCompatActivity {
-    public static final String URL = "172.16.1.100";
+    public static final String URL = "http://192.168.1.1";
+    public static final int READ_TIMEOUT = 10000;
+    public static final int CONNECT_TIMEOUT = 15000;
+
 
     private SessionManagement session;
     private EditText mUsername, mPassword;
@@ -62,11 +65,15 @@ public class LoginActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.login_toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
+        assert actionBar != null;
+        //仅在第一次登录时使用返回箭头
+        SharedPreferences preferences = getSharedPreferences("runCount", MODE_PRIVATE);
+        int count = preferences.getInt("runCount", 0);
+        if (count == 1) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeButtonEnabled(true);
-            actionBar.setTitle("");
         }
+        actionBar.setTitle("");
 
     }
 
@@ -149,13 +156,13 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 URL url = new URL(parms[0]);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setReadTimeout(10000);
-                connection.setConnectTimeout(15000);
+                connection.setReadTimeout(READ_TIMEOUT);
+                connection.setConnectTimeout(CONNECT_TIMEOUT);
                 //start
                 connection.connect();
                 int response = connection.getResponseCode();
                 Log.d("Login Tag", "The response is " + response);
-                return true;
+                return response != 200;
             } catch (IOException e) {
                 return false;
             }
@@ -172,7 +179,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             } else {
                 //用户账户密码不对
-                Toast.makeText(getApplicationContext(), "测试账户密码都是test", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "登录失败", Toast.LENGTH_SHORT).show();
             }
         }
     }

@@ -13,8 +13,12 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
+
             android:launchMode="singleTask"
-            android:finishOnTaskLaunch="true">
+            android:noHistory="true"
+            android:excludeFromRecents="true">
+            <!--TODO：上面3行代码为了保证登录时mainActivity不存在，如果有更好的方式实现可能会更科学-->
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

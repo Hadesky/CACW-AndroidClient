@@ -41,10 +41,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        session = new SessionManagement(getApplicationContext());
+
         checkIfFirstRun();
         checkIfLogin();
 
-        session = new SessionManagement(getApplicationContext());
         exitToast = Toast.makeText(getApplicationContext(), "再按返回退出", Toast.LENGTH_SHORT);
 
         initActionBar();
@@ -56,13 +58,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkIfLogin() {
-        if (isFirstRun(false)) {
+        if (!isFirstRun()) {
             session.checkLogin();
         }
     }
 
     private void checkIfFirstRun() {
-        if (isFirstRun(true)) {
+        if (isFirstRun()) {
             Intent intent = new Intent();
             intent.setClass(getApplicationContext(), WelcomeActivity.class);
             startActivity(intent);
@@ -70,14 +72,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isFirstRun(boolean plusOne) {
+    private boolean isFirstRun() {
         SharedPreferences preferences = getSharedPreferences("runCount", MODE_PRIVATE);
         int count = preferences.getInt("runCount", 0);
-        if (plusOne) {
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putInt("runCount", count + 1);
-            editor.apply();
-        }
         return count == 0;
     }
 
@@ -180,6 +177,17 @@ public class MainActivity extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //退出自动增加一次使用次数
+        SharedPreferences preferences = getSharedPreferences("runCount", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        int count = preferences.getInt("runCount", 0);
+        editor.putInt("runCount", count + 1);
+        editor.apply();
     }
 
     //如果要建立连接，对于HTTPURLCONNECT有一个旧版本的bug，API12以前会产生BUG，可以调用这个函数来临时阻止BUG

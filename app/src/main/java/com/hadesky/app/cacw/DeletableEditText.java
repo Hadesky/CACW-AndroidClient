@@ -80,8 +80,8 @@ public class DeletableEditText extends EditText implements View.OnFocusChangeLis
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
         //计算icon绘制的位置
-        mIconRightX = getMeasuredWidth() - getCompoundDrawablePadding();
-        mIconLeftX = getMeasuredWidth() - mClearIconSize - getCompoundDrawablePadding();
+        mIconRightX = getMeasuredWidth() - getCompoundDrawablePadding() - getPaddingRight();
+        mIconLeftX = getMeasuredWidth() - mClearIconSize - getCompoundDrawablePadding() - getPaddingRight();
     }
 
     @Override

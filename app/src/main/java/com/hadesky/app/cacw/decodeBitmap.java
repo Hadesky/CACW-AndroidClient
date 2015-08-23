@@ -7,7 +7,7 @@ import android.graphics.BitmapFactory;
 /**
  * Created by 45517 on 2015/8/1.
  */
-public class decodeBitmap {
+public class DecodeBitmap {
     /**
      * 计算Bitmap缩小到请求的大小所需的insamplesize
      * @param options

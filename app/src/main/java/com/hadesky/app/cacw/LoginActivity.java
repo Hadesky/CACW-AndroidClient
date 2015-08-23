@@ -1,6 +1,8 @@
 package com.hadesky.app.cacw;
 
 import android.app.ActivityManager;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -54,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
         initActionBar();
         initEditText();
 
+
     }
 
     private void initEditText() {
@@ -105,7 +108,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void login(final String username,final String password) {
         //临时使用test作为账号和密码
-        LoginTask loginTask = new LoginTask();
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        LoginTask loginTask = new LoginTask(progressDialog);
         loginTask.execute(URL, username, password);
     }
 
@@ -121,6 +125,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private class LoginTask extends AsyncTask<String, Void, Boolean> {
+        ProgressDialog progressDialog;
+
+        public LoginTask(ProgressDialog progressDialog) {
+            this.progressDialog = progressDialog;
+        }
+
         @Override
         protected Boolean doInBackground(String... parms) {
             try {
@@ -169,6 +179,13 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         @Override
+        protected void onPreExecute() {
+            progressDialog.setMessage("登录中...");
+            progressDialog.show();
+        }
+
+
+        @Override
         protected void onPostExecute(Boolean eSueecess) {
             if (eSueecess) {
                 session.createLoginSession("一张树叶", "455173472@qq.com");
@@ -178,7 +195,8 @@ public class LoginActivity extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
             } else {
-                //用户账户密码不对
+                progressDialog.cancel();
+                //登录失败
                 Toast.makeText(getApplicationContext(), "登录失败", Toast.LENGTH_SHORT).show();
             }
         }

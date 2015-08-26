@@ -16,4 +16,9 @@
     <string name="exit">退出</string>
     <string name="title_activity_welcome">WelcomeActivity</string>
     <string name="title_activity_setting">SettingActivity</string>
+    <string name="setting_general">通用</string>
+    <string name="setting_receive_alarm">接收新消息通知</string>
+    <string name="setting_sound">声音</string>
+    <string name="setting_vibration">振动</string>
+    <string name="setting_about">关于</string>
 </resources>

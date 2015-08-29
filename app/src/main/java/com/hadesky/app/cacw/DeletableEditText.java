@@ -1,10 +1,15 @@
 package com.hadesky.app.cacw;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -19,11 +24,13 @@ public class DeletableEditText extends EditText implements View.OnFocusChangeLis
 
     private int mUnderlineColor;
     private Paint mPaint;
-    private Drawable mClearIcon;
+    private int mClearIconId;
+    private BitmapDrawable mClearIcon;
     private int mClearIconSize;
     private int mIconLeftX;
     private int mIconRightX;
     private boolean isClearIconVisible = true;
+    private Resources mResources;
 
     public DeletableEditText(Context context) {
         this(context, null);
@@ -35,17 +42,18 @@ public class DeletableEditText extends EditText implements View.OnFocusChangeLis
 
     public DeletableEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        mResources = getResources();
 
-        TypedArray typedArray = getResources().obtainAttributes(attrs, R.styleable.DeletableEditText);
+        TypedArray typedArray = mResources.obtainAttributes(attrs, R.styleable.DeletableEditText);
         final int count = typedArray.getIndexCount();
         for (int i = 0; i < count; i++) {
             int attr = typedArray.getIndex(i);
             switch (attr) {
                 case R.styleable.DeletableEditText_clear_icon:
-                    mClearIcon = typedArray.getDrawable(attr);
+                    mClearIconId = typedArray.getResourceId(attr, -1);
                     break;
                 case R.styleable.DeletableEditText_underline_color:
-                    mUnderlineColor = typedArray.getColor(attr, getResources().getColor(android.R.color.darker_gray));
+                    mUnderlineColor = typedArray.getColor(attr, mResources.getColor(android.R.color.darker_gray));
                 default:
                     break;
             }
@@ -56,6 +64,10 @@ public class DeletableEditText extends EditText implements View.OnFocusChangeLis
 
     private void init() {
 
+        //这里的18是调试出来的，估计换设备调试要跪
+        final Bitmap ClearIconBitmap = DecodeBitmap.decodeSampledBitmapFromResource(mResources, mClearIconId, 18, 18);
+        mClearIcon = new BitmapDrawable(mResources, ClearIconBitmap);
+
         mPaint = new Paint();
         mPaint.setStrokeWidth(3.0f);
         mPaint.setColor(mUnderlineColor);
@@ -63,9 +75,8 @@ public class DeletableEditText extends EditText implements View.OnFocusChangeLis
         if (mClearIcon == null) {
             throw new RuntimeException("没有为删除图标设置资源");
         }
-        //获取icon大小
+
         mClearIconSize = Math.max(mClearIcon.getIntrinsicWidth(), mClearIcon.getIntrinsicHeight());
-        mClearIcon.setBounds(0, 0, mClearIconSize, mClearIconSize);
 
         //默认隐藏clear按钮
         setIsClearIconVisible(false);

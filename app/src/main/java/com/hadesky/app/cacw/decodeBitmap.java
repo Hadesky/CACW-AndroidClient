@@ -3,6 +3,7 @@ package com.hadesky.app.cacw;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 
 /**
  * Created by 45517 on 2015/8/1.
@@ -41,4 +42,5 @@ public class DecodeBitmap {
         options.inJustDecodeBounds = false;
         return BitmapFactory.decodeResource(res, resId, options);
     }
+
 }

@@ -16,13 +16,21 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
+import android.text.Selection;
+import android.text.Spannable;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.http.entity.StringEntity;
@@ -41,6 +49,9 @@ public class LoginActivity extends AppCompatActivity {
 
     private SessionManagement session;
     private EditText mUsername, mPassword;
+    private ImageButton mPwButton;
+    private Button mLoginButton;
+    private boolean mIsPwVisiable = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,13 +66,71 @@ public class LoginActivity extends AppCompatActivity {
 
         initActionBar();
         initEditText();
+        initLoginBt();
+        initPwButton();
 
 
     }
 
+    private void initLoginBt() {
+        mLoginButton = (Button) findViewById(R.id.login_login_button);
+    }
+
+    private void initPwButton() {
+        mPwButton = (ImageButton) findViewById(R.id.login_password_eye);
+        mPwButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setIsPwVisiable(!mIsPwVisiable);
+                if (mIsPwVisiable) {
+                    mPwButton.setSelected(false);
+                    mIsPwVisiable = false;
+                    setIsPwVisiable(false);
+                } else {
+                    mPwButton.setSelected(true);
+                    mIsPwVisiable = true;
+                    setIsPwVisiable(true);
+                }
+            }
+        });
+    }
+
+    private void setIsPwVisiable(boolean visiable) {
+        if (visiable) {
+            mPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            //定位到最后
+            CharSequence text = mPassword.getText();
+            if (text != null) {
+                    Spannable spanText = (Spannable)text;
+                    Selection.setSelection(spanText, text.length());
+                }
+        } else {
+            mPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            //定位到最后
+            CharSequence text = mPassword.getText();
+            if (text != null) {
+                Spannable spanText = (Spannable)text;
+                Selection.setSelection(spanText, text.length());
+            }
+        }
+    }
+
+
+
     private void initEditText() {
         mUsername = (EditText) findViewById(R.id.login_username);
         mPassword = (EditText) findViewById(R.id.login_password);
+
+        //设置IME输入法的监听
+        mPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_GO) {
+                    mLoginButton.performClick();
+                }
+                return true;
+            }
+        });
     }
 
     private void initActionBar() {

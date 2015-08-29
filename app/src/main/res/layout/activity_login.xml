@@ -26,7 +26,7 @@
         cacw:circle_width="2dp"
         cacw:circle_color="@android:color/white"
         android:id="@+id/login_icon"
-        android:layout_marginTop="90dp"
+        android:layout_marginTop="70dp"
         android:layout_centerHorizontal="true"
         android:layout_width="100dp"
         android:layout_height="100dp" />
@@ -41,8 +41,8 @@
 
         <com.hadesky.app.cacw.DeletableEditText
             android:id="@+id/login_username"
-            android:layout_marginTop="270dp"
-            cacw:clear_icon="@drawable/ic_clear_grey600_18dp"
+            android:layout_marginTop="200dp"
+            cacw:clear_icon="@drawable/ic_clear_grey600_48dp"
             cacw:underline_color="#BFBFBFBF"
             android:inputType="textEmailAddress"
             android:background="@drawable/login_edittext"
@@ -52,11 +52,18 @@
             android:layout_height="40dp"
             android:hint="邮箱/手机号"
             android:imeOptions="actionNext"/>
+    <RelativeLayout
+        android:background="@android:color/white"
+        android:id="@+id/login_password_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignTop="@id/login_username"
+        android:layout_marginTop="40dp">
         <com.hadesky.app.cacw.DeletableEditText
+            android:layout_marginRight="30dp"
             android:id="@+id/login_password"
-            android:layout_alignTop="@id/login_username"
-            android:layout_marginTop="40dp"
-            cacw:clear_icon="@drawable/ic_clear_grey600_18dp"
+            cacw:clear_icon="@drawable/ic_clear_grey600_48dp"
             cacw:underline_color="#FFFFFF"
             android:inputType="textPassword"
             android:background="@drawable/login_edittext"
@@ -66,13 +73,21 @@
             android:layout_height="40dp"
             android:hint="密码"
             android:imeOptions="actionGo"/>
-
+        <ImageButton
+            android:id="@+id/login_password_eye"
+            android:background="@drawable/login_pw_eye"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_width="25dp"
+            android:layout_height="15dp" />
+    </RelativeLayout>
     <Button
         android:id="@+id/login_login_button"
         android:textColor="@android:color/white"
         android:textSize="20sp"
         android:text="登录"
-        android:layout_alignTop="@id/login_password"
+        android:layout_alignTop="@id/login_password_layout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
         android:background="@drawable/login_button"

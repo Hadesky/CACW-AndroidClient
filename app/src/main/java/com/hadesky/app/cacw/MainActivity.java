@@ -115,6 +115,11 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.action_exit:
                         finish();
                         break;
+                    case R.id.action_settings:
+                        Intent intent = new Intent();
+                        intent.setClass(getApplicationContext(), SettingActivity.class);
+                        startActivity(intent);
+                        break;
                     default:
                         menuItem.setChecked(true);
                         break;

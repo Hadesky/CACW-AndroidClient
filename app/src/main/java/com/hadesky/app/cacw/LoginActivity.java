@@ -1,10 +1,14 @@
 package com.hadesky.app.cacw;
 
+import java.io.UnsupportedEncodingException;
 import android.app.ActivityManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -37,12 +41,19 @@ import org.apache.http.entity.StringEntity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity {
-    public static final String URL = "http://www.baidu.com";
+    public static final String URL = "http://jwgldx.gdut.edu.cn/default2.aspx";
+    public static final String SECRET_CODE_URL = "http://jwgldx.gdut.edu.cn/CheckCode.aspx";
     public static final int READ_TIMEOUT = 10000;
     public static final int CONNECT_TIMEOUT = 15000;
 
@@ -68,7 +79,6 @@ public class LoginActivity extends AppCompatActivity {
         initEditText();
         initLoginBt();
         initPwButton();
-
 
     }
 
@@ -101,20 +111,19 @@ public class LoginActivity extends AppCompatActivity {
             //定位到最后
             CharSequence text = mPassword.getText();
             if (text != null) {
-                    Spannable spanText = (Spannable)text;
-                    Selection.setSelection(spanText, text.length());
-                }
+                Spannable spanText = (Spannable) text;
+                Selection.setSelection(spanText, text.length());
+            }
         } else {
             mPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             //定位到最后
             CharSequence text = mPassword.getText();
             if (text != null) {
-                Spannable spanText = (Spannable)text;
+                Spannable spanText = (Spannable) text;
                 Selection.setSelection(spanText, text.length());
             }
         }
     }
-
 
 
     private void initEditText() {
@@ -175,9 +184,10 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void login(final String username,final String password) {
+    private void login(final String username, final String password) {
         //临时使用test作为账号和密码
         ProgressDialog progressDialog = new ProgressDialog(this);
+
         LoginTask loginTask = new LoginTask(progressDialog);
         loginTask.execute(URL, username, password);
     }
@@ -209,43 +219,83 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
 
-//        private Boolean loginAttemp(String... parms) throws IOException,JSONException {
-//            try {
-//                URL url = new URL(parms[0]);
-//                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-//                connection.setReadTimeout(10000);
-//                connection.setConnectTimeout(15000);
-//                //GET
-//                connection.setRequestMethod("GET");
-//                connection.setDoOutput(true);
-//                connection.setUseCaches(false);
-//                connection.addRequestProperty("Accept", "application/json");
-//                connection.addRequestProperty("Content-Type", "application/json");
-//                JSONObject parm = new JSONObject();
-//                parm.put("loginId", parms[1]);
-//                parm.put("password", parms[2]);
-//                //start
-//                connection.connect();
-//                int response = connection.getResponseCode();
-//                Log.d("Login Tag", "The response is " + response);
-//            }
-//        }
 
-        private Boolean loginAttempt(String... parms) throws IOException,JSONException {
+        private Boolean loginAttempt(String... params) throws IOException, JSONException {
+            //TODO 先获取viewState,为登录教务系统做准备,后期可删
+            final String viewState = getViewState();
+
+            InputStream is = null;
+            String result = "";
+            HttpURLConnection connection = null;
+
             try {
-                URL url = new URL(parms[0]);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                URL url = new URL(params[0]);
+                connection = (HttpURLConnection) url.openConnection();
                 connection.setReadTimeout(READ_TIMEOUT);
                 connection.setConnectTimeout(CONNECT_TIMEOUT);
+                connection.setDoInput(true);
+                connection.setDoOutput(true);
+                connection.setUseCaches(false);
+                connection.setRequestMethod("POST");
+
+                //没有添加验证码
+                connection.addRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                connection.addRequestProperty("Accept", "text/html, application/xhtml+xml, image/jxr, */*");
+                connection.addRequestProperty("Accept-Language", "zh-Hans-CN,zh-Hans;q=0.5");
+                connection.addRequestProperty("Content-Language", "gb2312");
+                connection.addRequestProperty("Accept-Encoding", "gzip, deflate");
+                connection.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko");
+                connection.addRequestProperty("Pragma", "no-cache");
+
+                StringBuilder postString = new StringBuilder();
+                postString.append("__VIEWSTATE").append("=").append(URLEncoder.encode(viewState, "gb2312")).append("&");
+                postString.append("txtUserName").append("=").append(URLEncoder.encode(params[1], "gb2312")).append("&");
+                postString.append("TextBox2").append("=").append(URLEncoder.encode(params[1], "gb2312")).append("&");
+                postString.append("txtSecretCode").append("=").append("1234").append("&");
+                postString.append("RadioButtonList1").append("=").append(URLEncoder.encode("学生", "gb2312")).append("&");
+                postString.append("Button1").append("=").append("").append("&");
+                postString.append("lbLanguage").append("=").append("").append("&");
+                postString.append("hidPdrs").append("=").append("").append("&");
+                postString.append("hidsc").append("=").append("");
+
+                Log.d("TEST2222", "The postString is " + postString.toString());
+
+                byte[] bytes = postString.toString().getBytes("gb2312");
+                connection.getOutputStream().write(bytes);
                 //start
-                connection.connect();
+                is = connection.getInputStream();
+
                 int response = connection.getResponseCode();
-                Log.d("Login Tag", "The response is " + response);
-                return response == 200;
+                if (response != 200) {
+                    return false;
+                }
+
+                InputStreamReader isr = new InputStreamReader(is, "gb2312");
+                BufferedReader bufferedReader = new BufferedReader(isr);
+                String inputLine;
+                while ((inputLine = bufferedReader.readLine()) != null) {
+                    result += inputLine + "\n";
+                }
+
+                getPopString(result);
+
+                return true;
             } catch (IOException e) {
                 return false;
+            } finally {
+                if (is != null) {
+                    try {
+                        is.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (connection != null) {
+                    connection.disconnect();
+                }
             }
         }
+
 
         @Override
         protected void onPreExecute() {
@@ -262,12 +312,86 @@ public class LoginActivity extends AppCompatActivity {
                 intent.setClass(getApplicationContext(), MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                progressDialog.cancel();
                 startActivity(intent);
             } else {
                 progressDialog.cancel();
                 //登录失败
                 Toast.makeText(getApplicationContext(), "登录失败", Toast.LENGTH_SHORT).show();
             }
+        }
+
+
+        //TODO:以下均为专门为登录正方教务设计的方法
+        private String getViewState() {
+
+            InputStream is = null;
+            String result = "";
+            HttpURLConnection connection = null;
+
+
+            String viewState = "";
+            try {
+                URL url = new URL(URL);
+                connection = (HttpURLConnection) url.openConnection();
+                connection.setReadTimeout(READ_TIMEOUT);
+                connection.setConnectTimeout(CONNECT_TIMEOUT);
+                connection.setDoInput(true);
+                connection.setDoOutput(true);
+                connection.setUseCaches(false);
+                connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                connection.setRequestMethod("GET");
+                //start
+                is = connection.getInputStream();
+
+                int response = connection.getResponseCode();
+                if (response != 200) {
+                    return "";
+                }
+
+                InputStreamReader isr = new InputStreamReader(is, "gb2312");
+                BufferedReader bufferedReader = new BufferedReader(isr);
+                String inputLine;
+                while ((inputLine = bufferedReader.readLine()) != null) {
+                    result += inputLine + "\n";
+                }
+
+
+                //正则表达式获取viewState
+                Pattern p = Pattern.compile("<input type=\"hidden\" name=\"__VIEWSTATE\" value=\"(.+?)\" />");
+                Matcher matcher = p.matcher(result);
+                StringBuilder buffer = new StringBuilder();
+                while (matcher.find()) {
+                    buffer.append(matcher.group(1));
+                }
+                return buffer.toString();
+
+            } catch (IOException e) {
+                return "";
+            } finally {
+                if (is != null) {
+                    try {
+                        is.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (connection != null) {
+                    connection.disconnect();
+                }
+            }
+        }
+
+        //获取弹窗内容
+        private String getPopString(String result) {
+            Pattern p = Pattern.compile("alert(.+?);");
+            Matcher matcher = p.matcher(result);
+            StringBuilder buffer = new StringBuilder();
+            while (matcher.find()) {
+                buffer.append(matcher.group(1));
+            }
+            Log.d("TEST", "弹窗内容为" + buffer.toString());
+            return buffer.toString();
         }
     }
 }

@@ -75,12 +75,15 @@
             android:imeOptions="actionGo"/>
         <ImageButton
             android:id="@+id/login_password_eye"
-            android:background="@drawable/login_pw_eye"
+            android:src="@drawable/login_pw_eye"
+            android:background="@android:color/white"
+            android:scaleType="centerInside"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_width="25dp"
-            android:layout_height="15dp" />
+            android:layout_width="32dp"
+            android:layout_height="40dp"
+            android:contentDescription="显示/隐藏密码"/>
     </RelativeLayout>
     <Button
         android:id="@+id/login_login_button"

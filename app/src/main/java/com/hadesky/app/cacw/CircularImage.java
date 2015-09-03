@@ -10,11 +10,15 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 
 /**
- * Created by 45517 on 2015/8/11.
+ * 圆形头像自定义View
+ * Created by Derek on 2015/8/11.
  */
 public class CircularImage extends MaskedImage {
+
     private Paint mPaint;
+    //外圈的颜色
     private int mCircleColor;
+    //外圈的宽度
     private int mCircleWidth;
 
     public CircularImage(Context paramContext) {

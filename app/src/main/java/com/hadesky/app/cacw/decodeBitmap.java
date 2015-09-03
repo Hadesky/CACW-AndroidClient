@@ -6,7 +6,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 
 /**
- * Created by 45517 on 2015/8/1.
+ * 简单的调整Bitmap大小
+ * Created by Derek on 2015/8/1.
  */
 public class DecodeBitmap {
     /**

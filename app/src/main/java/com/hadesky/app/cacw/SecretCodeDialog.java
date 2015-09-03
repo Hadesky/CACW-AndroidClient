@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 /**
+ * 验证码Dialog
  * Created by 45517 on 2015/8/30.
  */
 public class SecretCodeDialog extends Dialog {

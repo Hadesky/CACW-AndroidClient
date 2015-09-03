@@ -1,20 +1,11 @@
 package com.hadesky.app.cacw;
 
-import java.io.UnsupportedEncodingException;
-import android.app.ActivityManager;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -25,21 +16,16 @@ import android.text.Selection;
 import android.text.Spannable;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.apache.http.entity.StringEntity;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -53,7 +39,6 @@ import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity {
     public static final String URL = "http://jwgldx.gdut.edu.cn/default2.aspx";
-    public static final String SECRET_CODE_URL = "http://jwgldx.gdut.edu.cn/CheckCode.aspx";
     public static final int READ_TIMEOUT = 10000;
     public static final int CONNECT_TIMEOUT = 15000;
 
@@ -62,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mUsername, mPassword;
     private ImageButton mPwButton;
     private Button mLoginButton;
-    private boolean mIsPwVisiable = false;
+    private boolean mIsPwVisitable = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,14 +76,14 @@ public class LoginActivity extends AppCompatActivity {
         mPwButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setIsPwVisiable(!mIsPwVisiable);
-                if (mIsPwVisiable) {
+                setIsPwVisiable(!mIsPwVisitable);
+                if (mIsPwVisitable) {
                     mPwButton.setSelected(false);
-                    mIsPwVisiable = false;
+                    mIsPwVisitable = false;
                     setIsPwVisiable(false);
                 } else {
                     mPwButton.setSelected(true);
-                    mIsPwVisiable = true;
+                    mIsPwVisitable = true;
                     setIsPwVisiable(true);
                 }
             }

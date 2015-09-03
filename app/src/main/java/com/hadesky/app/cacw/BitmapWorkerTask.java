@@ -10,12 +10,20 @@ import android.widget.ImageView;
 import java.lang.ref.WeakReference;
 
 /**
- * Created by 45517 on 2015/8/2.
+ * 这个类是用于异步加载bitmap用的
+ * Created by Derek on 2015/8/2.
  */
+
+
 public class BitmapWorkerTask extends AsyncTask<Integer,Bitmap,Bitmap> {
+    //弱引用，防止内存泄露？
     private final WeakReference imageViewReference;
+
     private int resId = 0;
+
     private final Resources mResources;
+
+    //默认100
     private int requireWidth = 100;
     private int requireHeight = 100;
 

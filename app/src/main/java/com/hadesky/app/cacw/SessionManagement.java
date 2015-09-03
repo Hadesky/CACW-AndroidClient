@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import java.util.HashMap;
 
 /**
+ * session管理器
  * Created by 45517 on 2015/8/20.
  */
 public class SessionManagement {

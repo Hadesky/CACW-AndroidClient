@@ -18,7 +18,8 @@ import android.view.View;
 import android.widget.EditText;
 
 /**
- * Created by 45517 on 2015/8/17.
+ * 自定义View，带有一个删除键
+ * Created by Derek on 2015/8/17.
  */
 public class DeletableEditText extends EditText implements View.OnFocusChangeListener, TextWatcher {
 

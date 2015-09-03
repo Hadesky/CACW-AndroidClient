@@ -31,12 +31,21 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+    //页面根布局
     private DrawerLayout mDrawerLayout;
+    //左上角的汉堡图标
     private ActionBarDrawerToggle mDrawerToggle;
+    //TabLayout
     private TabLayout mTabLayout;
+    //三个ViewPager
     private ViewPager mViewPager;
+    //登录时储存的session
     private SessionManagement session;
+    //退出软件时的Toast
     private Toast exitToast;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,16 +56,21 @@ public class MainActivity extends AppCompatActivity {
         checkIfFirstRun();
         checkIfLogin();
 
-        exitToast = Toast.makeText(getApplicationContext(), "再按返回退出", Toast.LENGTH_SHORT);
+        //初始化退出的Toast，并不需要Show出来
+        exitToast = Toast.makeText(this, "再按返回键退出", Toast.LENGTH_SHORT);
 
         initActionBar();
         setupTabLayout();
+        //初始化侧边抽屉
         NavigationView navigationView = (NavigationView) findViewById(R.id.main_navigation);
         if (navigationView != null) {
             setupDrawerContent(navigationView);
         }
     }
 
+    /**
+     * 检查程序是否已经登录了，如果没有则返回Login界面
+     */
     private void checkIfLogin() {
         if (!isFirstRun()) {
             if (!session.checkLogin()) {
@@ -65,6 +79,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 检查是否第一次运行程序
+     */
     private void checkIfFirstRun() {
         if (isFirstRun()) {
             Intent intent = new Intent();
@@ -74,12 +91,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     *检查是否第一次运行程序，返回值表示是否第一次运行
+     * @return  true表示第一次运行
+     */
     private boolean isFirstRun() {
         SharedPreferences preferences = getSharedPreferences("runCount", MODE_PRIVATE);
         int count = preferences.getInt("runCount", 0);
         return count == 0;
     }
 
+    /**
+     * 初始化TabLayout
+     */
     private void setupTabLayout() {
         mTabLayout = (TabLayout) findViewById(R.id.main_tabs);
         mTabLayout.addTab(mTabLayout.newTab().setText("任务"));
@@ -87,6 +111,9 @@ public class MainActivity extends AppCompatActivity {
         mTabLayout.addTab(mTabLayout.newTab().setText("团队"));
     }
 
+    /**
+     * 初始化ActionBar，替换成Toolbar
+     */
     private void initActionBar() {
         //replace actionBar
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
@@ -103,6 +130,10 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
+    /**
+     * 初始化侧边栏，对侧边栏选项设置listener
+     * @param navigationView 非空
+     */
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -128,22 +159,33 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
         //设置头像
         CircularImage circularImage = (CircularImage) findViewById(R.id.user_photo);
-
+        //TODO 暂时使用的是临时的头像，需要修改
         loadUserImage(R.drawable.a, circularImage);
     }
 
-    private void loadUserImage(int resId, ImageView imageView) {
+    /**
+     * TODO 开启一个线程进行加载头像，需要修改
+     * @param resId 暂时使用的是来着drawable的头像，届时应该换成session里的头像，
+     * @param circularImage 头像所在的CircularImageView
+     */
+    private void loadUserImage(int resId, CircularImage circularImage) {
         Bitmap mPlaceHolderBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.default_user_image_192);
-        if (BitmapWorkerTask.cancelPotentialWork(resId, imageView)) {
-            final BitmapWorkerTask task = new BitmapWorkerTask(imageView, getResources());
+        if (BitmapWorkerTask.cancelPotentialWork(resId, circularImage)) {
+            final BitmapWorkerTask task = new BitmapWorkerTask(circularImage, getResources());
             final BitmapWorkerTask.AsyncDrawable defUserImg = new BitmapWorkerTask.AsyncDrawable(getResources(), mPlaceHolderBitmap, task);
-            imageView.setImageDrawable(defUserImg);
+            circularImage.setImageDrawable(defUserImg);
             task.execute(resId);
         }
     }
 
+    /**
+     * 在生命周期的onPostCreate时更新左上角汉堡图标的状态
+     * @param savedInstanceState 你懂得
+     * @param persistentState 你懂得
+     */
     @Override
     public void onPostCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onPostCreate(savedInstanceState, persistentState);
@@ -157,12 +199,18 @@ public class MainActivity extends AppCompatActivity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
+    /**
+     * 设置菜单响应内容
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -178,12 +226,18 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * 打开Setting界面
+     */
     private void startSettingActivity() {
         Intent intent = new Intent();
         intent.setClass(getApplicationContext(), SettingActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * 先检测是否打开了抽屉，打开则先关闭，否则双击退出
+     */
     @Override
     public void onBackPressed() {
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -197,6 +251,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * onDestroy的时候增加一次使用记录
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -208,7 +265,9 @@ public class MainActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    //如果要建立连接，对于HTTPURLCONNECT有一个旧版本的bug，API12以前会产生BUG，可以调用这个函数来临时阻止BUG
+    /**
+     * 如果要建立连接，对于HttpUrlConnection有一个旧版本的bug，API12以前会产生BUG，可以调用这个函数来临时阻止BUG
+     */
     private void disableConnectionReuseIfNecessary() {
         // HTTP connection reuse which was buggy pre-froyo
         if (Integer.parseInt(Build.VERSION.SDK) < Build.VERSION_CODES.FROYO) {

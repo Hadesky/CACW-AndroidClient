@@ -6,6 +6,7 @@ import android.view.View;
 import java.util.List;
 
 /**
+ * 用于WelcomeActivity的动画效果
  * Created by 45517 on 2015/8/5.
  */
 public class ZoomOutPageTransformer implements ViewPager.PageTransformer {

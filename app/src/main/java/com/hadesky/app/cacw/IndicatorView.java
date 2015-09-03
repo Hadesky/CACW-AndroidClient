@@ -12,7 +12,8 @@ import android.util.TypedValue;
 import android.view.View;
 
 /**
- * Created by 45517 on 2015/8/14.
+ * PagerView的指示器，自定义View
+ * Created by Derek on 2015/8/14.
  */
 public class IndicatorView extends View implements ViewPager.OnPageChangeListener{
 

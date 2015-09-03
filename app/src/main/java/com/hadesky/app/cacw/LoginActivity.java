@@ -206,79 +206,79 @@ public class LoginActivity extends AppCompatActivity {
 
 
         private Boolean loginAttempt(String... params) throws IOException, JSONException {
-            //TODO 先获取viewState,为登录教务系统做准备,后期可删
-            final String viewState = getViewState();
+//            //TODO 先获取viewState,为登录教务系统做准备,后期可删
+//            final String viewState = getViewState();
+//
+//            InputStream is = null;
+//            String result = "";
+//            HttpURLConnection connection = null;
+//
+//            try {
+//                URL url = new URL(params[0]);
+//                connection = (HttpURLConnection) url.openConnection();
+//                connection.setReadTimeout(READ_TIMEOUT);
+//                connection.setConnectTimeout(CONNECT_TIMEOUT);
+//                connection.setDoInput(true);
+//                connection.setDoOutput(true);
+//                connection.setUseCaches(false);
+//                connection.setRequestMethod("POST");
+//
+//                //没有添加验证码
+//                connection.addRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+//                connection.addRequestProperty("Accept", "text/html, application/xhtml+xml, image/jxr, */*");
+//                connection.addRequestProperty("Accept-Language", "zh-Hans-CN,zh-Hans;q=0.5");
+//                connection.addRequestProperty("Content-Language", "gb2312");
+//                connection.addRequestProperty("Accept-Encoding", "gzip, deflate");
+//                connection.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko");
+//                connection.addRequestProperty("Pragma", "no-cache");
+//
+//                StringBuilder postString = new StringBuilder();
+//                postString.append("__VIEWSTATE").append("=").append(URLEncoder.encode(viewState, "gb2312")).append("&");
+//                postString.append("txtUserName").append("=").append(URLEncoder.encode(params[1], "gb2312")).append("&");
+//                postString.append("TextBox2").append("=").append(URLEncoder.encode(params[1], "gb2312")).append("&");
+//                postString.append("txtSecretCode").append("=").append("1234").append("&");
+//                postString.append("RadioButtonList1").append("=").append(URLEncoder.encode("学生", "gb2312")).append("&");
+//                postString.append("Button1").append("=").append("").append("&");
+//                postString.append("lbLanguage").append("=").append("").append("&");
+//                postString.append("hidPdrs").append("=").append("").append("&");
+//                postString.append("hidsc").append("=").append("");
+//
+//                Log.d("TEST2222", "The postString is " + postString.toString());
+//
+//                byte[] bytes = postString.toString().getBytes("gb2312");
+//                connection.getOutputStream().write(bytes);
+//                //start
+//                is = connection.getInputStream();
+//
+//                int response = connection.getResponseCode();
+//                if (response != 200) {
+//                    return false;
+//                }
+//
+//                InputStreamReader isr = new InputStreamReader(is, "gb2312");
+//                BufferedReader bufferedReader = new BufferedReader(isr);
+//                String inputLine;
+//                while ((inputLine = bufferedReader.readLine()) != null) {
+//                    result += inputLine + "\n";
+//                }
 
-            InputStream is = null;
-            String result = "";
-            HttpURLConnection connection = null;
-
-            try {
-                URL url = new URL(params[0]);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.setReadTimeout(READ_TIMEOUT);
-                connection.setConnectTimeout(CONNECT_TIMEOUT);
-                connection.setDoInput(true);
-                connection.setDoOutput(true);
-                connection.setUseCaches(false);
-                connection.setRequestMethod("POST");
-
-                //没有添加验证码
-                connection.addRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-                connection.addRequestProperty("Accept", "text/html, application/xhtml+xml, image/jxr, */*");
-                connection.addRequestProperty("Accept-Language", "zh-Hans-CN,zh-Hans;q=0.5");
-                connection.addRequestProperty("Content-Language", "gb2312");
-                connection.addRequestProperty("Accept-Encoding", "gzip, deflate");
-                connection.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko");
-                connection.addRequestProperty("Pragma", "no-cache");
-
-                StringBuilder postString = new StringBuilder();
-                postString.append("__VIEWSTATE").append("=").append(URLEncoder.encode(viewState, "gb2312")).append("&");
-                postString.append("txtUserName").append("=").append(URLEncoder.encode(params[1], "gb2312")).append("&");
-                postString.append("TextBox2").append("=").append(URLEncoder.encode(params[1], "gb2312")).append("&");
-                postString.append("txtSecretCode").append("=").append("1234").append("&");
-                postString.append("RadioButtonList1").append("=").append(URLEncoder.encode("学生", "gb2312")).append("&");
-                postString.append("Button1").append("=").append("").append("&");
-                postString.append("lbLanguage").append("=").append("").append("&");
-                postString.append("hidPdrs").append("=").append("").append("&");
-                postString.append("hidsc").append("=").append("");
-
-                Log.d("TEST2222", "The postString is " + postString.toString());
-
-                byte[] bytes = postString.toString().getBytes("gb2312");
-                connection.getOutputStream().write(bytes);
-                //start
-                is = connection.getInputStream();
-
-                int response = connection.getResponseCode();
-                if (response != 200) {
-                    return false;
-                }
-
-                InputStreamReader isr = new InputStreamReader(is, "gb2312");
-                BufferedReader bufferedReader = new BufferedReader(isr);
-                String inputLine;
-                while ((inputLine = bufferedReader.readLine()) != null) {
-                    result += inputLine + "\n";
-                }
-
-                getPopString(result);
+                //getPopString(result);
 
                 return true;
-            } catch (IOException e) {
-                return false;
-            } finally {
-                if (is != null) {
-                    try {
-                        is.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (connection != null) {
-                    connection.disconnect();
-                }
-            }
+//            } catch (IOException e) {
+//                return false;
+//            } finally {
+//                if (is != null) {
+//                    try {
+//                        is.close();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//                if (connection != null) {
+//                    connection.disconnect();
+//                }
+//            }
         }
 
 

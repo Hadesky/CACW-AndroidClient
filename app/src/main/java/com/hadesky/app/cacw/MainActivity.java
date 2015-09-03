@@ -27,6 +27,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -61,11 +63,33 @@ public class MainActivity extends AppCompatActivity {
 
         initActionBar();
         setupTabLayout();
+
+        initPagerView();
         //初始化侧边抽屉
         NavigationView navigationView = (NavigationView) findViewById(R.id.main_navigation);
         if (navigationView != null) {
             setupDrawerContent(navigationView);
         }
+    }
+
+    private void initPagerView() {
+        mViewPager = (ViewPager) findViewById(R.id.main_viewpager);
+
+        List<String> titles = new ArrayList<>();
+        titles.add("任务");
+        titles.add("私信");
+        titles.add("团队");
+
+        List<Fragment> fragments = new ArrayList<>();
+        fragments.add(new ExampleFragment());
+        fragments.add(new ExampleFragment());
+        fragments.add(new ExampleFragment());
+
+        FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager(), fragments, titles);
+        mViewPager.setAdapter(adapter);
+        mTabLayout.setupWithViewPager(mViewPager);
+        mTabLayout.setTabsFromPagerAdapter(adapter);
+
     }
 
     /**
